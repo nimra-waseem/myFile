@@ -1,0 +1,102 @@
+#ifndef STACK_H
+#define STACK_H
+template <typename T>
+class Stack
+{
+	T* data;
+	int size;
+	int top;
+	void reSize(int s);
+public:
+	Stack();
+	void push(T);
+	T pop();
+	T stackTop();
+	bool isFull();
+	bool isEmpty();
+	~Stack();
+};
+template <typename T>
+Stack<T>::Stack()
+{
+	size = 0;
+	data = new T[size];
+	top = 0;
+}
+template <typename T>
+void Stack<T>::push(T val)
+{
+	if (isFull())
+	{
+		reSize(size = 0 ? 1 : size * 2);
+	}
+	data[top++] = val;
+}
+template <typename T>
+T Stack <T> ::pop()
+{
+	if (isEmpty())
+	{
+		exit(0);
+    }
+	T val = data[--top];
+	if (top > 0 && top > size / 4)
+	{
+		reSize(size / 2);
+	}
+	return val;
+}
+template <typename T>
+bool Stack<T> ::isEmpty()
+{
+	if (top == 1)
+		return true;
+	else
+		return false;
+}
+template <typename T>
+bool Stack<T>:: isFull()
+{
+	if (top - 1 == size)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+template <typename T>
+T Stack<T> ::stackTop()
+{
+	if (isEmpty())
+	{
+		exit(0);
+	}
+	return data[top - 1];
+}
+template <typename T>
+void Stack<T> ::reSize(int newSize)
+{
+	T* temp = new T[newSize];
+	for (int i = 0; i < top && i < newSize ; i++)
+	{
+		temp[i] = data[i];
+	}
+	this -> ~Stack();
+	data = temp;
+	size = newSize;
+}
+template <typename T>
+Stack<T> :: ~Stack()
+{
+	if (!data)
+	{
+		exit(0);
+	}
+	delete[] data;
+	data = nullptr;
+	top = 0;
+	size = 0;
+}
+#endif;
